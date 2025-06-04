@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-    origin: "http://172.16.5.89:3000",
+    origin: true,
     credentials: true
     })
 );

@@ -19,7 +19,7 @@ exports.register = async (req, res) => {
                      httpOnly : true,
                      samSite: "none",
                      maxAge: 24*60*60*1000,
-                     secure: true })
+                     secure: false })
             .status(200)
             .json({message: "token generated successfully"});
     } catch (error) {
@@ -31,15 +31,15 @@ exports.login = async(req, res) => {
     const {username, password} = req.body;
     try {
         const userExist = await User.findOne({username});
-        if(!userExist) return res.status(404).json({message: "user not found, please register"});
+        if(!userExist) return res.status(404).json({message: "*user not found, please register"});
         const passwordMatched = await bcrypt.compare(password, userExist.password);
-        if(!passwordMatched) return res.status(400).json({message: "wrong credentials"});
+        if(!passwordMatched) return res.status(400).json({message: "*wrong password"});
         
         const token = generateToken(userExist._id);
         res.cookie("token", token, {
                      httpOnly: true,
                      samSite: "none",
-                     secure: true,
+                     secure: false,
                      maxAge: 24*60*60*1000})
            .status(200)
            .json({message: "token generated successfully"});

@@ -1,19 +1,52 @@
 const Note = require("../models/Note")
 
+// exports.createNote = async (req, res) => {
+//     try {
+//         const note = await Note.create({
+//             title: req.body.title,
+//             content: req.body.content,
+//             user: req.user.id,
+//         });
+//         res.status(200).json(note);
+//     } catch (error) {
+//         res.status(500).json({message: "error creating note"});
+
+//     }
+    
+// };
+
+
 exports.createNote = async (req, res) => {
     try {
+        console.log("🟡 Incoming POST /notes request");
+        console.log("req.user:", req.user);
+        console.log("req.body:", req.body);
+
+        if (!req.user || !req.user.id) {
+            console.warn("⚠️ Missing req.user, rejecting request");
+            return res.status(401).json({ message: "Unauthorized: no user" });
+        }
+
+        if (!req.body.content) {
+            console.warn("⚠️ Missing title or content in request body");
+            return res.status(400).json({ message: "Title and content are required" });
+        }
+
+
         const note = await Note.create({
-            title: req.body.title,
+            title: req.body.title?req.body.title:" ",
             content: req.body.content,
             user: req.user.id,
         });
+
+        console.log("✅ Note created:", note);
         res.status(200).json(note);
     } catch (error) {
-        res.status(500).json({message: "error creating note"});
-
+        console.error("❌ Error in createNote:", error);
+        res.status(500).json({ message: "Error creating note", error: error.message });
     }
-    
 };
+
 
 exports.getNotes = async(req, res)=>{
     try {

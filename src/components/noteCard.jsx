@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useMemo } from 'react';
 import './noteCard.css';
 
 const NoteCard = ({notes, DeleteCard, updateNote})=> {
@@ -50,12 +50,19 @@ const NoteCard = ({notes, DeleteCard, updateNote})=> {
 
     
   
-   
+    
+
+    const sortedNotes = useMemo(() => {
+      return [...notes].sort((a, b) => {
+        const dateA = new Date(a.updatedAt);
+        const dateB = new Date(b.updatedAt);
+        return dateB - dateA;
+    });}, [notes]);
     // notes && notes.length? const Note = notes[0] : console.error("Array is empty");
     if(!notes.length)
     {
         return(
-            <p className='initialmsg'>lets get Started with Divyansh notes</p>
+            <p className='initialmsg'>lets get Started with Divyansh notes, currently no notes found</p>
         )
     }
     
@@ -63,7 +70,7 @@ const NoteCard = ({notes, DeleteCard, updateNote})=> {
     return(  
         <div className='parentOfCard'>
             {
-                notes.map((currentnote)=>(
+                sortedNotes.map((currentnote)=>(
                     <div key={currentnote._id} className="cardData">
   
                     {(currentnote._id === editId?(  
@@ -92,9 +99,14 @@ const NoteCard = ({notes, DeleteCard, updateNote})=> {
                     <h3 className='displaynote' onClick={()=>startEditing(currentnote)}>{currentnote.title}</h3>
                     <p className='displaynote' onClick={()=>startEditing(currentnote)}>{currentnote.content}</p>
                     </>))}
-                      
-                     <p>{currentnote.date}</p>
-                     <div className="Cardbtn">
+                      {console.log("Date value:", currentnote.date)}
+                      <p>{new Date(currentnote.updatedAt).toLocaleString('en-US', {
+                                                        month: 'short',
+                                                        day: 'numeric',
+                                                        hour: '2-digit',
+                                                        minute: '2-digit',
+                                                        hour12: true
+                                                                            })}</p>                     <div className="Cardbtn">
                       <button onClick={(e)=>DeleteCard(currentnote._id)}>delete</button>
                      </div>
                     </div>
