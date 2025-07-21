@@ -204,7 +204,11 @@ form button:hover {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  word-wrap: break-word;         /* wrap long words */
+  overflow-wrap: break-word;     /* break long strings */
+  max-width: 100%;               /* restrict horizontal growth */
 }
+
 
 .cardData:hover {
   transform: translateY(-5px);
@@ -224,7 +228,11 @@ form button:hover {
   margin: 0 0 0.5rem 0;
   color: #2c3e50;
   line-height: 1.3;
+  white-space: nowrap;           /* single line */
+  text-overflow: ellipsis;
+  overflow: hidden;              /* ellipsis requires this */
 }
+
 
 .cardData p.displaynote {
   font-size: 0.95rem;
@@ -232,7 +240,28 @@ form button:hover {
   line-height: 1.5;
   margin: 0 0 1rem 0;
   flex-grow: 1;
+  white-space: pre-wrap;         /* preserve line breaks */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+
+  max-height: 200px;             /* adjust as needed */
+  overflow-y: auto;              /* scroll vertically if needed */
+  padding-right: 5px;            /* space for scrollbar */
 }
+
+.cardData p.displaynote::-webkit-scrollbar {
+  width: 6px;
+}
+
+.cardData p.displaynote::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.cardData p.displaynote::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
 
 .displaynote:hover {
   color: #667eea;
@@ -314,7 +343,7 @@ form button:hover {
 }
 
 /* Responsive design */
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
   .main {
     flex-direction: column;
     height: auto;
@@ -338,4 +367,4 @@ form button:hover {
   .divyansh h1 {
     font-size: 2rem;
   }
-}
+} */

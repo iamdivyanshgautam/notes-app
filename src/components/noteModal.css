@@ -1,0 +1,134 @@
+/* Modal backdrop */
+.modal-backdrop {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  height: 100vh !important;
+  width: 100vw !important;
+  background: rgba(0, 0, 0, 0.5);              /* Darker background for better visibility */
+  backdrop-filter: blur(8px);                  /* Stronger blur */
+  -webkit-backdrop-filter: blur(8px);          /* Safari support */
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  z-index: 2147483647 !important;              /* Maximum possible z-index value */
+  isolation: isolate;                          /* Create new stacking context */
+
+  animation: fadeIn 0.3s ease forwards;
+}
+
+/* Modal content */
+.modal-content {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  padding: 2rem;
+  width: 70vw;                                 /* 70% of viewport width */
+  height: 70vh;                                /* 70% of viewport height */
+  max-width: 90vw;                             /* Prevent overflow on very small screens */
+  max-height: 90vh;                            /* Prevent overflow on very small screens */
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+  position: relative;
+  overflow-y: auto;
+  animation: fadeInContent 0.3s ease forwards;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  font-size: 2rem;
+  color: #2c3e50;
+}
+
+.modal-content p {
+  font-size: 1rem;
+  color: #333;
+  margin: 1rem 0;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.modal-content .modal-date {
+  font-size: 0.9rem;
+  color: #777;
+  font-style: italic;
+  margin-top: auto; /* Push date to the bottom if desired */
+}
+
+/* Close button */
+.modal-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1.5rem;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  color: #666;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-close-btn:hover {
+  background: rgba(231, 76, 60, 0.1);
+  color: #e74c3c;
+  transform: scale(1.1);
+}
+
+/* Generic button styling for other buttons if needed */
+.modal-content button:not(.modal-close-btn) {
+  margin-top: 1rem;
+  padding: 0.6rem 1.2rem;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(45deg, #e74c3c, #c0392b);
+  color: white;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  align-self: flex-start;
+}
+
+.modal-content button:not(.modal-close-btn):hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+}
+
+/* Fade in animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInContent {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scrollbar styling for better UI */
+.modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+.modal-content::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+.modal-content::-webkit-scrollbar-thumb:hover {
+  background: #aaa;
+}

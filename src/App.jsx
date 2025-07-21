@@ -16,8 +16,8 @@ function App() {
   const [content, setContent] = useState("");
   const [showForm, setShowForm] = useState(false);
   const [searchQuery, SetSearchQuery] = useState("");
-  const [counter, setCounter] = useState(3);
-  const [showAuth, setShowAuth] = useState(false);
+  // const [counter, setCounter] = useState(3);
+  // const [showAuth, setShowAuth] = useState(false);
 
   useEffect(() => {
     const checkLogin = async () => {
@@ -32,21 +32,27 @@ function App() {
     checkLogin();
   }, []);
 
-  useEffect(() => {
-    if (!isLoggedIn) {
-      const timer = setInterval(() => {
-        setCounter((prev) => prev - 1);
-      }, 1000);
+  // useEffect(()=>{
+  //   if(!isLoggedIn){
+  //     setShowAuth(true)
+  //   }
+  // }, [])
 
-      const timeout = setTimeout(() => {
-        setShowAuth(true);
-      }, 3000);
-      return () => {
-        clearInterval(timer);
-        clearTimeout(timeout);
-      };
-    }
-  }, [isLoggedIn]);
+  // useEffect(() => {
+  //   if (!isLoggedIn) {
+  //     const timer = setInterval(() => {
+  //       setCounter((prev) => prev - 1);
+  //     }, 1000);
+
+  //     const timeout = setTimeout(() => {
+  //       setShowAuth(true);
+  //     }, 3000);
+  //     return () => {
+  //       clearInterval(timer);
+  //       clearTimeout(timeout);
+  //     };
+  //   }
+  // }, [isLoggedIn]);
 
   async function fetchNotes() {
     try {
@@ -107,16 +113,18 @@ function App() {
         note.content.toLowerCase().includes(searchQuery.toLowerCase())
       );
 
-  if (!isLoggedIn && !showAuth) {
-    return (
-      <>
-        <h2>You are not logged in</h2>
-        <p>You will be redirected to the login page in {counter} second{counter !== 1 ? "s" : ""}...</p>
-      </>
-    );
-  }
+    
 
-  if (!isLoggedIn && showAuth) {
+  // if (!isLoggedIn && !showAuth) {
+  //   return (
+  //     <>
+  //       <h2>You are not logged in</h2>
+  //       <p>You will be redirected to the login page in {counter} second{counter !== 1 ? "s" : ""}...</p>
+  //     </>
+  //   );
+  // }
+
+  if (!isLoggedIn ) {
     return (
       <Auth onLogin={() => {
         setIsLoggedIn(true);

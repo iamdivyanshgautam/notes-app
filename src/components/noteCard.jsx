@@ -1,5 +1,7 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState, useEffect, useRef, useMemo } from 'react';
 import './noteCard.css';
+import NoteModal from './noteModal.jsx';
 
 const NoteCard = ({notes, DeleteCard, updateNote})=> {
 
@@ -9,6 +11,8 @@ const NoteCard = ({notes, DeleteCard, updateNote})=> {
     const [editedText, setEditedText] = useState("")
     const inputRef = useRef(null)
     const wrapperRef = useRef(null)
+    const [selectedNoteModal, setSelectedNoteModal] = useState(null);
+    const [displayModal, setDisplayModal] = useState(false);
 
     useEffect(()=>{
         if(editId !== null && inputRef.current)
@@ -58,6 +62,18 @@ const NoteCard = ({notes, DeleteCard, updateNote})=> {
         const dateB = new Date(b.updatedAt);
         return dateB - dateA;
     });}, [notes]);
+
+
+
+    const expandNoteModal = (note) => {
+            setSelectedNoteModal(note);
+            setDisplayModal(true);
+    };
+
+    const closeModal = () => {
+            setSelectedNoteModal(null);
+            setDisplayModal(false);
+    };
     // notes && notes.length? const Note = notes[0] : console.error("Array is empty");
     if(!notes.length)
     {
@@ -106,13 +122,19 @@ const NoteCard = ({notes, DeleteCard, updateNote})=> {
                                                         hour: '2-digit',
                                                         minute: '2-digit',
                                                         hour12: true
-                                                                            })}</p>                     <div className="Cardbtn">
+                                                                            })}</p>                     
+                     <div className="Cardbtn">
                       <button onClick={(e)=>DeleteCard(currentnote._id)}>delete</button>
+                      <button onClick={()=> expandNoteModal(currentnote)}><FontAwesomeIcon icon="fa-solid fa-up-right-and-down-left-from-center" /></button>
+
                      </div>
                     </div>
                     
                 ))
             }
+
+    {displayModal && selectedNoteModal && (
+                  <NoteModal currentnote={selectedNoteModal} closeModal={closeModal}/>)}        
     {/* {notes.map((currentnote)=>(
            
     <h3 onClick={console.log("hello")}>{currentnote.title}</h3>
